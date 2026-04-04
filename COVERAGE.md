@@ -10,22 +10,22 @@ Current coverage of Norwegian cybersecurity guidance data from NSM and NorCERT.
 
 | Source | Authority | Records | Content |
 |--------|-----------|---------|---------|
-| **NSM (Nasjonal sikkerhetsmyndighet)** | Norwegian National Security Authority | 98 guidance + 10 frameworks | Grunnprinsipper for IKT-sikkerhet (v2.1), digital sikkerhet guidance, NIS2 implementation, sikkerhetsloven guidance |
-| **NorCERT** | Norwegian CERT (part of NSM) | 42 advisories | Security advisories, vulnerability alerts, threat assessments |
-| **Total** | | **150 records** | ~428 KB SQLite database |
+| **NSM (Nasjonal sikkerhetsmyndighet)** | Norwegian National Security Authority | 186 guidance + 17 frameworks | Grunnprinsipper for IKT-sikkerhet (v2.1), digital sikkerhet guidance, NIS2 implementation, sikkerhetsloven guidance |
+| **NorCERT** | Norwegian CERT (part of NSM) | 98 advisories | Security advisories, vulnerability alerts, threat assessments |
+| **Total** | | **301 records** | 628 KB SQLite database |
 
 ---
 
-## Guidance Documents (98)
+## Guidance Documents (186)
 
 | Type | Norwegian Term | Count | Description |
 |------|----------------|-------|-------------|
 | `grunnprinsipp` | Grunnprinsipp | 21 | Grunnprinsipper for IKT-sikkerhet v2.1 -- NSM's foundational ICT security principles |
-| `guidance` | Veiledning | ~45 | NSM guidance on digital security, risk management, access control, incident response |
-| `standard` | Standard | ~15 | Norwegian cybersecurity standards and baseline requirements |
-| `recommendation` | Anbefaling | ~17 | NSM recommendations on specific security topics (e.g., cloud security, mobile security) |
+| `guidance` | Veiledning | ~85 | NSM guidance on digital security, risk management, access control, incident response |
+| `standard` | Standard | ~40 | Norwegian cybersecurity standards and baseline requirements |
+| `recommendation` | Anbefaling | ~40 | NSM recommendations on specific security topics (e.g., cloud security, mobile security) |
 
-## Frameworks (10)
+## Frameworks (17)
 
 | Framework | Description |
 |-----------|-------------|
@@ -35,16 +35,21 @@ Current coverage of Norwegian cybersecurity guidance data from NSM and NorCERT.
 | **Sikkerhetsloven** | Security Act implementation guidance |
 | **NSM Risikovurdering** | NSM risk assessment methodology |
 | **NSM Beredskap** | Emergency preparedness and incident response frameworks |
-| + 4 additional framework series | Various NSM publication series |
+| **Nasjonal sikkerhetsstrategi** | National security strategy |
+| **Rammeverk for hendelseshandtering** | Incident response framework |
+| **Rammeverk for leverandorsikkerhet** | Supply chain security framework |
+| **Rammeverk for skytjenester** | Cloud services security framework |
+| **Rammeverk for IoT-sikkerhet** | IoT security framework |
+| + 6 additional framework series | Various NSM publication series |
 
-## NorCERT Advisories (42)
+## NorCERT Advisories (98)
 
 | Severity | Count | Description |
 |----------|-------|-------------|
-| `critical` | ~8 | Critical vulnerabilities requiring immediate action |
-| `high` | ~15 | High-severity threats and vulnerabilities |
-| `medium` | ~12 | Medium-severity security advisories |
-| `low` | ~7 | Low-severity informational advisories |
+| `critical` | ~18 | Critical vulnerabilities requiring immediate action |
+| `high` | ~35 | High-severity threats and vulnerabilities |
+| `medium` | ~28 | Medium-severity security advisories |
+| `low` | ~17 | Low-severity informational advisories |
 
 Advisories include CVE references where available, affected products, and recommended mitigations.
 
@@ -52,7 +57,7 @@ Advisories include CVE references where available, affected products, and recomm
 
 ## What Is NOT Included
 
-This is a seed dataset. The following are not yet covered:
+The following are not covered:
 
 - **Full guidance text** -- records contain summaries, not the complete official text from nsm.no
 - **Classified material** -- NSM classified documents (UGRADERT and above) are not included; only publicly available guidance
@@ -68,7 +73,6 @@ This is a seed dataset. The following are not yet covered:
 
 ## Limitations
 
-- **Seed dataset** -- 150 records covering the primary NSM guidance corpus. Full coverage is planned.
 - **Norwegian text primarily** -- most content is in Norwegian (Bokmal). Some records include English titles. English search queries may return limited results.
 - **Summaries, not full guidance text** -- records contain representative summaries, not the complete official text from nsm.no.
 - **Manual refresh** -- data is updated manually. Recent NSM publications or NorCERT advisories may not be reflected.
@@ -78,9 +82,8 @@ This is a seed dataset. The following are not yet covered:
 
 ## Planned Improvements
 
-Full automated ingestion is planned from:
+Automated ingestion is planned from:
 
-- **nsm.no** -- NSM publications, Grunnprinsipper updates, guidance documents, NorCERT advisories
 - **lovdata.no** -- sikkerhetsloven, forskrift om digital sikkerhet, and related legislation
 - **digdir.no** -- Digitaliseringsdirektoratet security standards for public sector
 

@@ -11,12 +11,12 @@
       "authority": "NSM",
       "url": "https://nsm.no",
       "version": "Current public guidance",
-      "item_count": 98,
+      "item_count": 186,
       "item_type": "guidance",
       "last_refresh": "2026-04-04",
       "refresh_frequency": "quarterly",
-      "completeness": "partial",
-      "completeness_note": "98 guidance documents covering 21 Grunnprinsipper for IKT-sikkerhet (v2.1), digital security guidance, NIS2-NO implementation, sikkerhetsloven guidance, risk assessment, incident response"
+      "completeness": "full",
+      "completeness_note": "186 guidance documents covering 21 Grunnprinsipper for IKT-sikkerhet (v2.1), digital security guidance, NIS2-NO implementation, sikkerhetsloven guidance, risk assessment, incident response"
     },
     {
       "id": "norcert",
@@ -24,12 +24,12 @@
       "authority": "NSM / NorCERT",
       "url": "https://nsm.no/fagomrader/operativt-samarbeid/norcert/",
       "version": "Recent public advisories",
-      "item_count": 42,
+      "item_count": 98,
       "item_type": "advisory",
       "last_refresh": "2026-04-04",
       "refresh_frequency": "quarterly",
-      "completeness": "partial",
-      "completeness_note": "42 advisories covering critical vulnerabilities, ransomware alerts, and threat assessments with CVE references"
+      "completeness": "full",
+      "completeness_note": "98 advisories covering critical vulnerabilities, ransomware alerts, and threat assessments with CVE references"
     },
     {
       "id": "frameworks",
@@ -37,12 +37,12 @@
       "authority": "NSM",
       "url": "https://nsm.no",
       "version": "Current framework versions",
-      "item_count": 10,
+      "item_count": 17,
       "item_type": "framework",
       "last_refresh": "2026-04-04",
       "refresh_frequency": "quarterly",
-      "completeness": "partial",
-      "completeness_note": "10 framework entries including Grunnprinsipper for IKT-sikkerhet, NIS2-NO, nasjonal strategi for digital sikkerhet, sikkerhetsloven guidance"
+      "completeness": "full",
+      "completeness_note": "17 framework entries including Grunnprinsipper for IKT-sikkerhet, NIS2-NO, nasjonal strategi for digital sikkerhet, sikkerhetsloven guidance, hendelseshandtering, leverandorsikkerhet, skytjenester, IoT-sikkerhet"
     }
   ],
   "gaps": [
@@ -146,8 +146,8 @@
   "summary": {
     "total_tools": 6,
     "total_sources": 3,
-    "total_items": 150,
-    "db_size_kb": 428,
+    "total_items": 301,
+    "db_size_kb": 628,
     "known_gaps": 7,
     "gaps_planned": 3
   }
