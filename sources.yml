@@ -1,0 +1,60 @@
+# sources.yml -- Data provenance metadata
+# Reference: docs/mcp-infrastructure-blueprint.md
+
+schema_version: "1.0"
+mcp_name: "Norwegian Cybersecurity MCP"
+category: "domain_intelligence"
+jurisdiction: "Norway"
+
+sources:
+  - name: "NSM (Nasjonal sikkerhetsmyndighet)"
+    authority: "NSM"
+    official_url: "https://nsm.no"
+    retrieval_method: "MANUAL_CURATION"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "quarterly"
+    license:
+      type: "Public Domain (Norwegian government publications)"
+      url: "https://nsm.no"
+      summary: "NSM public guidance documents are freely available"
+    coverage:
+      scope: "Grunnprinsipper for IKT-sikkerhet, digital security guidance, sikkerhetsloven implementation, NIS2-NO guidance, risk assessment methodology"
+      item_count: 98
+    languages:
+      - "no"
+      - "en"
+
+  - name: "NorCERT (Norwegian CERT)"
+    authority: "NSM / NorCERT"
+    official_url: "https://nsm.no/fagomrader/operativt-samarbeid/norcert/"
+    retrieval_method: "MANUAL_CURATION"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "quarterly"
+    license:
+      type: "Public Domain (Norwegian government publications)"
+      url: "https://nsm.no"
+      summary: "NorCERT public advisories are freely available"
+    coverage:
+      scope: "Security advisories, vulnerability alerts, threat assessments, CVE references"
+      item_count: 42
+    languages:
+      - "no"
+
+  - name: "Lovdata (Norwegian legislation)"
+    authority: "Lovdata"
+    official_url: "https://lovdata.no"
+    retrieval_method: "MANUAL_CURATION"
+    format: "HTML"
+    authentication: "none"
+    update_frequency: "quarterly"
+    license:
+      type: "Public Domain (Norwegian legislation)"
+      url: "https://lovdata.no"
+      summary: "Norwegian legislation is public record"
+    coverage:
+      scope: "Sikkerhetsloven, forskrift om digital sikkerhet, and related cybersecurity legislation references"
+      item_count: 10
+    languages:
+      - "no"

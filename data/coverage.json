@@ -1,0 +1,154 @@
+{
+  "schema_version": "1.0",
+  "mcp_name": "Norwegian Cybersecurity MCP",
+  "mcp_type": "domain_intelligence",
+  "coverage_date": "2026-04-04",
+  "database_version": "0.1.0",
+  "sources": [
+    {
+      "id": "nsm",
+      "name": "NSM (Nasjonal sikkerhetsmyndighet)",
+      "authority": "NSM",
+      "url": "https://nsm.no",
+      "version": "Current public guidance",
+      "item_count": 98,
+      "item_type": "guidance",
+      "last_refresh": "2026-04-04",
+      "refresh_frequency": "quarterly",
+      "completeness": "partial",
+      "completeness_note": "98 guidance documents covering 21 Grunnprinsipper for IKT-sikkerhet (v2.1), digital security guidance, NIS2-NO implementation, sikkerhetsloven guidance, risk assessment, incident response"
+    },
+    {
+      "id": "norcert",
+      "name": "NorCERT (Norwegian CERT)",
+      "authority": "NSM / NorCERT",
+      "url": "https://nsm.no/fagomrader/operativt-samarbeid/norcert/",
+      "version": "Recent public advisories",
+      "item_count": 42,
+      "item_type": "advisory",
+      "last_refresh": "2026-04-04",
+      "refresh_frequency": "quarterly",
+      "completeness": "partial",
+      "completeness_note": "42 advisories covering critical vulnerabilities, ransomware alerts, and threat assessments with CVE references"
+    },
+    {
+      "id": "frameworks",
+      "name": "NSM Framework Series",
+      "authority": "NSM",
+      "url": "https://nsm.no",
+      "version": "Current framework versions",
+      "item_count": 10,
+      "item_type": "framework",
+      "last_refresh": "2026-04-04",
+      "refresh_frequency": "quarterly",
+      "completeness": "partial",
+      "completeness_note": "10 framework entries including Grunnprinsipper for IKT-sikkerhet, NIS2-NO, nasjonal strategi for digital sikkerhet, sikkerhetsloven guidance"
+    }
+  ],
+  "gaps": [
+    {
+      "id": "full-text",
+      "description": "Full original guidance text (only summaries included)",
+      "reason": "Summaries provide sufficient context for MCP tool queries",
+      "impact": "medium",
+      "planned": true,
+      "target_version": "0.2"
+    },
+    {
+      "id": "classified-material",
+      "description": "NSM classified guidance (BEGRENSET and above)",
+      "reason": "Classified material cannot be included in a public tool",
+      "impact": "low",
+      "planned": false
+    },
+    {
+      "id": "eu-cybersecurity-directives",
+      "description": "EU cybersecurity directives (NIS2, CRA, DORA)",
+      "reason": "Covered by the EU Regulations MCP",
+      "impact": "low",
+      "planned": false
+    },
+    {
+      "id": "sector-specific",
+      "description": "Sector-specific cybersecurity regulations (finance, health, energy)",
+      "reason": "Covered by dedicated sector MCPs",
+      "impact": "low",
+      "planned": false
+    },
+    {
+      "id": "real-time-threat-intel",
+      "description": "Real-time NorCERT threat intelligence feeds",
+      "reason": "Live threat data requires different architecture",
+      "impact": "medium",
+      "planned": false
+    },
+    {
+      "id": "historical-guidance",
+      "description": "Superseded NSM guidance versions",
+      "reason": "Focus on current guidance",
+      "impact": "low",
+      "planned": true,
+      "target_version": "0.3"
+    },
+    {
+      "id": "lovdata-full-text",
+      "description": "Full text of sikkerhetsloven and related legislation from Lovdata",
+      "reason": "Legislation text planned for automated ingestion",
+      "impact": "medium",
+      "planned": true,
+      "target_version": "0.2"
+    }
+  ],
+  "tools": [
+    {
+      "name": "no_cyber_search_guidance",
+      "category": "search",
+      "description": "Full-text search across NSM cybersecurity guidance, Grunnprinsipper for IKT-sikkerhet, and digital security recommendations",
+      "data_sources": ["nsm"],
+      "verified": true
+    },
+    {
+      "name": "no_cyber_get_guidance",
+      "category": "lookup",
+      "description": "Retrieve a specific NSM guidance document by reference string",
+      "data_sources": ["nsm"],
+      "verified": true
+    },
+    {
+      "name": "no_cyber_search_advisories",
+      "category": "search",
+      "description": "Search NorCERT security advisories and vulnerability alerts",
+      "data_sources": ["norcert"],
+      "verified": true
+    },
+    {
+      "name": "no_cyber_get_advisory",
+      "category": "lookup",
+      "description": "Retrieve a specific NorCERT advisory by reference string",
+      "data_sources": ["norcert"],
+      "verified": true
+    },
+    {
+      "name": "no_cyber_list_frameworks",
+      "category": "list",
+      "description": "List all NSM frameworks and standard series covered",
+      "data_sources": ["frameworks"],
+      "verified": true
+    },
+    {
+      "name": "no_cyber_about",
+      "category": "meta",
+      "description": "Return server metadata, source list, tool list, data coverage",
+      "data_sources": [],
+      "verified": true
+    }
+  ],
+  "summary": {
+    "total_tools": 6,
+    "total_sources": 3,
+    "total_items": 150,
+    "db_size_kb": 428,
+    "known_gaps": 7,
+    "gaps_planned": 3
+  }
+}

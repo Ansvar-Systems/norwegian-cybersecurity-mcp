@@ -1,0 +1,118 @@
+{
+  "version": "1.0",
+  "mcp_name": "Norwegian Cybersecurity MCP",
+  "tests": [
+    {
+      "id": "no-cyber-001",
+      "category": "search",
+      "description": "Search guidance for 'grunnprinsipper'",
+      "tool": "no_cyber_search_guidance",
+      "input": { "query": "grunnprinsipper" },
+      "assertions": { "result_not_empty": true, "min_results": 1 }
+    },
+    {
+      "id": "no-cyber-002",
+      "category": "search",
+      "description": "Search guidance for 'IKT-sikkerhet'",
+      "tool": "no_cyber_search_guidance",
+      "input": { "query": "IKT-sikkerhet" },
+      "assertions": { "result_not_empty": true, "min_results": 1 }
+    },
+    {
+      "id": "no-cyber-003",
+      "category": "search",
+      "description": "Search guidance filtered by type 'grunnprinsipp'",
+      "tool": "no_cyber_search_guidance",
+      "input": { "query": "sikkerhet", "type": "grunnprinsipp" },
+      "assertions": { "result_not_empty": true, "min_results": 1 }
+    },
+    {
+      "id": "no-cyber-004",
+      "category": "search",
+      "description": "Search guidance filtered by series 'Grunnprinsipper'",
+      "tool": "no_cyber_search_guidance",
+      "input": { "query": "tilgangsstyring", "series": "Grunnprinsipper" },
+      "assertions": { "result_not_empty": true }
+    },
+    {
+      "id": "no-cyber-005",
+      "category": "search",
+      "description": "Search advisories for 'ransomware'",
+      "tool": "no_cyber_search_advisories",
+      "input": { "query": "ransomware" },
+      "assertions": { "result_not_empty": true, "min_results": 1 }
+    },
+    {
+      "id": "no-cyber-006",
+      "category": "search",
+      "description": "Search advisories filtered by severity 'critical'",
+      "tool": "no_cyber_search_advisories",
+      "input": { "query": "sarbarhet", "severity": "critical" },
+      "assertions": { "result_not_empty": true }
+    },
+    {
+      "id": "no-cyber-007",
+      "category": "search",
+      "description": "Search guidance for 'digital sikkerhet'",
+      "tool": "no_cyber_search_guidance",
+      "input": { "query": "digital sikkerhet", "status": "current" },
+      "assertions": { "result_not_empty": true, "min_results": 1 }
+    },
+    {
+      "id": "no-cyber-008",
+      "category": "meta_tool",
+      "description": "List frameworks returns entries",
+      "tool": "no_cyber_list_frameworks",
+      "input": {},
+      "assertions": { "result_not_empty": true, "min_results": 1 }
+    },
+    {
+      "id": "no-cyber-009",
+      "category": "meta_tool",
+      "description": "About tool returns server metadata",
+      "tool": "no_cyber_about",
+      "input": {},
+      "assertions": { "result_not_empty": true }
+    },
+    {
+      "id": "no-cyber-010",
+      "category": "negative_test",
+      "description": "Non-existent guidance reference handles gracefully",
+      "tool": "no_cyber_get_guidance",
+      "input": { "reference": "NONEXISTENT-REF-999" },
+      "assertions": { "handles_gracefully": true }
+    },
+    {
+      "id": "no-cyber-011",
+      "category": "negative_test",
+      "description": "Non-existent advisory reference handles gracefully",
+      "tool": "no_cyber_get_advisory",
+      "input": { "reference": "NONEXISTENT-ADV-999" },
+      "assertions": { "handles_gracefully": true }
+    },
+    {
+      "id": "no-cyber-012",
+      "category": "search",
+      "description": "Search guidance for 'risikovurdering' (risk assessment)",
+      "tool": "no_cyber_search_guidance",
+      "input": { "query": "risikovurdering" },
+      "assertions": { "result_not_empty": true, "min_results": 1 }
+    },
+    {
+      "id": "no-cyber-013",
+      "category": "search",
+      "description": "Search advisories for 'VPN'",
+      "tool": "no_cyber_search_advisories",
+      "input": { "query": "VPN" },
+      "assertions": { "result_not_empty": true }
+    },
+    {
+      "id": "no-cyber-014",
+      "category": "search",
+      "description": "Search guidance for 'hendelseshandtering' (incident response)",
+      "tool": "no_cyber_search_guidance",
+      "input": { "query": "hendelseshandtering" },
+      "assertions": { "result_not_empty": true }
+    }
+  ]
+}
