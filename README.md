@@ -5,7 +5,7 @@ MCP server for Norwegian cybersecurity guidance -- NSM Grunnprinsipper for IKT-s
 [![npm version](https://badge.fury.io/js/@ansvar%2Fnorwegian-cybersecurity-mcp.svg)](https://www.npmjs.com/package/@ansvar/norwegian-cybersecurity-mcp)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-Covers NSM (Nasjonal sikkerhetsmyndighet) guidance and NorCERT advisories with full-text search across 150 records. Most data is in Norwegian (Bokmal).
+Covers NSM (Nasjonal sikkerhetsmyndighet) guidance and NorCERT advisories with full-text search across 301 records. Most data is in Norwegian (Bokmal).
 
 Built by [Ansvar Systems](https://ansvar.eu) -- Stockholm, Sweden
 
@@ -24,7 +24,7 @@ Built by [Ansvar Systems](https://ansvar.eu) -- Stockholm, Sweden
 
 ### Use Remotely (No Install Needed)
 
-**Endpoint:** `https://mcp.ansvar.eu/norwegian-cybersecurity/mcp`
+**Endpoint:** `https://mcp.ansvar.eu/norwegian-cybersecurity/mcp` *(deployment pending — use local npm install until confirmed live)*
 
 | Client | How to Connect |
 |--------|---------------|
@@ -75,6 +75,8 @@ Or add to Claude Desktop config for stdio:
 | `no_cyber_get_advisory` | Get a specific NorCERT advisory by reference |
 | `no_cyber_list_frameworks` | List all NSM frameworks and standard series covered |
 | `no_cyber_about` | Return server metadata: version, sources, tool list, data coverage |
+| `no_cyber_list_sources` | List all data sources with official URLs and provenance metadata |
+| `no_cyber_check_data_freshness` | Check data age and whether a refresh is needed (stale if > 90 days) |
 
 Full tool documentation: [TOOLS.md](TOOLS.md)
 
@@ -84,10 +86,10 @@ Full tool documentation: [TOOLS.md](TOOLS.md)
 
 | Source | Records | Content |
 |--------|---------|---------|
-| NSM guidance | 98 documents | Grunnprinsipper for IKT-sikkerhet (21 principles, v2.1), digital security guidance, NIS2 implementation, risk assessment, incident response |
-| NorCERT advisories | 42 advisories | Security advisories, vulnerability alerts, CVE references, severity ratings |
-| Frameworks | 10 entries | Grunnprinsipper, NIS2-NO, nasjonal strategi for digital sikkerhet, sikkerhetsloven guidance |
-| **Total** | **150 records** | ~428 KB database |
+| NSM guidance | 186 documents | Grunnprinsipper for IKT-sikkerhet (21 principles, v2.1), digital security guidance, NIS2 implementation, risk assessment, incident response |
+| NorCERT advisories | 98 advisories | Security advisories, vulnerability alerts, CVE references, severity ratings |
+| Frameworks | 17 entries | Grunnprinsipper, NIS2-NO, nasjonal strategi for digital sikkerhet, sikkerhetsloven guidance |
+| **Total** | **301 records** | ~628 KB database |
 
 **Language note:** Most content is in Norwegian (Bokmal). Some records include English titles. Search queries work best in Norwegian (e.g., `grunnprinsipper`, `IKT-sikkerhet`, `sarbarhet`, `tilgangsstyring`).
 

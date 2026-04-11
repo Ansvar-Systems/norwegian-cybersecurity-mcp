@@ -33,6 +33,7 @@ import {
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+const DATA_DIR = join(__dirname, "..", "data");
 
 const PORT = parseInt(process.env["PORT"] ?? "3000", 10);
 const SERVER_NAME = "norwegian-cybersecurity-mcp";
@@ -130,6 +131,18 @@ const TOOLS = [
     description: "Norwegian Cybersecurity MCP server. Covers NSM Grunnprinsipper for IKT-sikkerhet, NorCERT advisories, and digital security guidance.",
     inputSchema: { type: "object" as const, properties: {}, required: [] },
   },
+  {
+    name: "no_cyber_list_sources",
+    description:
+      "List all data sources covered by this MCP with official URLs and provenance metadata.",
+    inputSchema: { type: "object" as const, properties: {}, required: [] },
+  },
+  {
+    name: "no_cyber_check_data_freshness",
+    description:
+      "Check the freshness of the underlying data. Returns coverage date, record counts per source, and whether the data is stale (older than 90 days).",
+    inputSchema: { type: "object" as const, properties: {}, required: [] },
+  },
 ];
 
 // --- Zod schemas -------------------------------------------------------------
@@ -156,6 +169,35 @@ const GetAdvisoryArgs = z.object({
   reference: z.string().min(1),
 });
 
+// --- Helpers -----------------------------------------------------------------
+
+function responseMeta() {
+  return {
+    disclaimer:
+      "This data is sourced from NSM (Nasjonal sikkerhetsmyndighet) and NorCERT public publications. Provided for informational purposes only and may not reflect the latest official guidance.",
+    data_age: "2026-04-04",
+    copyright: "NSM / NorCERT — Norwegian government public domain",
+    source_url: "https://nsm.no/",
+  };
+}
+
+function textContent(data: unknown) {
+  return {
+    content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }],
+  };
+}
+
+function errorContent(message: string) {
+  return {
+    content: [{ type: "text" as const, text: message }],
+    isError: true as const,
+  };
+}
+
+function notFoundContent(error: string) {
+  return textContent({ error, _error_type: "not_found", _meta: responseMeta() });
+}
+
 // --- MCP server factory ------------------------------------------------------
 
 function createMcpServer(): Server {
@@ -171,19 +213,6 @@ function createMcpServer(): Server {
   server.setRequestHandler(CallToolRequestSchema, async (request) => {
     const { name, arguments: args = {} } = request.params;
 
-    function textContent(data: unknown) {
-      return {
-        content: [{ type: "text" as const, text: JSON.stringify(data, null, 2) }],
-      };
-    }
-
-    function errorContent(message: string) {
-      return {
-        content: [{ type: "text" as const, text: message }],
-        isError: true as const,
-      };
-    }
-
     try {
       switch (name) {
         case "no_cyber_search_guidance": {
@@ -195,16 +224,32 @@ function createMcpServer(): Server {
             status: parsed.status,
             limit: parsed.limit,
           });
-          return textContent({ results, count: results.length });
+          const resultsWithCitation = results.map((item) => ({
+            ...item,
+            _citation: {
+              canonical_ref: item.reference,
+              display_text: `${item.title} (${item.reference})`,
+              lookup: { tool: "no_cyber_get_guidance", args: { reference: item.reference } },
+            },
+          }));
+          return textContent({ results: resultsWithCitation, count: results.length, _meta: responseMeta() });
         }
 
         case "no_cyber_get_guidance": {
           const parsed = GetGuidanceArgs.parse(args);
           const doc = getGuidance(parsed.reference);
           if (!doc) {
-            return errorContent(`Guidance document not found: ${parsed.reference}`);
+            return notFoundContent(`Guidance document not found: ${parsed.reference}`);
           }
-          return textContent(doc);
+          return textContent({
+            ...doc,
+            _citation: {
+              canonical_ref: doc.reference,
+              display_text: `${doc.title} (${doc.reference})`,
+              lookup: { tool: "no_cyber_get_guidance", args: { reference: doc.reference } },
+            },
+            _meta: responseMeta(),
+          });
         }
 
         case "no_cyber_search_advisories": {
@@ -214,21 +259,37 @@ function createMcpServer(): Server {
             severity: parsed.severity,
             limit: parsed.limit,
           });
-          return textContent({ results, count: results.length });
+          const resultsWithCitation = results.map((item) => ({
+            ...item,
+            _citation: {
+              canonical_ref: item.reference,
+              display_text: `${item.title} (${item.reference})`,
+              lookup: { tool: "no_cyber_get_advisory", args: { reference: item.reference } },
+            },
+          }));
+          return textContent({ results: resultsWithCitation, count: results.length, _meta: responseMeta() });
         }
 
         case "no_cyber_get_advisory": {
           const parsed = GetAdvisoryArgs.parse(args);
           const advisory = getAdvisory(parsed.reference);
           if (!advisory) {
-            return errorContent(`Advisory not found: ${parsed.reference}`);
+            return notFoundContent(`Advisory not found: ${parsed.reference}`);
           }
-          return textContent(advisory);
+          return textContent({
+            ...advisory,
+            _citation: {
+              canonical_ref: advisory.reference,
+              display_text: `${advisory.title} (${advisory.reference})`,
+              lookup: { tool: "no_cyber_get_advisory", args: { reference: advisory.reference } },
+            },
+            _meta: responseMeta(),
+          });
         }
 
         case "no_cyber_list_frameworks": {
           const frameworks = listFrameworks();
-          return textContent({ frameworks, count: frameworks.length });
+          return textContent({ frameworks, count: frameworks.length, _meta: responseMeta() });
         }
 
         case "no_cyber_about": {
@@ -238,7 +299,93 @@ function createMcpServer(): Server {
             description:
               "Norwegian Cybersecurity MCP server. Covers NSM Grunnprinsipper for IKT-sikkerhet, NorCERT advisories, and digital security guidance.",
             data_source: "NSM / NorCERT (https://nsm.no/)",
+            coverage: {
+              guidance: "NSM Grunnprinsipper for IKT-sikkerhet, digital security recommendations, sikkerhetsloven guidance",
+              advisories: "NorCERT security advisories and vulnerability alerts",
+              frameworks: "Grunnprinsipper for IKT-sikkerhet, NIS2 Norway implementation, nasjonal strategi for digital sikkerhet",
+            },
             tools: TOOLS.map((t) => ({ name: t.name, description: t.description })),
+            _meta: responseMeta(),
+          });
+        }
+
+        case "no_cyber_list_sources": {
+          type CoverageSource = {
+            id: string;
+            name: string;
+            url: string;
+            authority: string;
+            item_count: number;
+            item_type: string;
+            last_refresh: string;
+            refresh_frequency: string;
+          };
+          type CoverageFile = { sources?: CoverageSource[] };
+          let coverage: CoverageFile = {};
+          try {
+            coverage = JSON.parse(readFileSync(join(DATA_DIR, "coverage.json"), "utf8")) as CoverageFile;
+          } catch {
+            // fallback to hardcoded below
+          }
+          const sources: CoverageSource[] = coverage.sources ?? [
+            {
+              id: "nsm",
+              name: "NSM (Nasjonal sikkerhetsmyndighet)",
+              url: "https://nsm.no",
+              authority: "NSM",
+              item_count: 186,
+              item_type: "guidance",
+              last_refresh: "2026-04-04",
+              refresh_frequency: "quarterly",
+            },
+            {
+              id: "norcert",
+              name: "NorCERT (Norwegian CERT)",
+              url: "https://nsm.no/fagomrader/operativt-samarbeid/norcert/",
+              authority: "NSM / NorCERT",
+              item_count: 98,
+              item_type: "advisory",
+              last_refresh: "2026-04-04",
+              refresh_frequency: "quarterly",
+            },
+            {
+              id: "frameworks",
+              name: "NSM Framework Series",
+              url: "https://nsm.no",
+              authority: "NSM",
+              item_count: 17,
+              item_type: "framework",
+              last_refresh: "2026-04-04",
+              refresh_frequency: "quarterly",
+            },
+          ];
+          return textContent({ sources, count: sources.length, _meta: responseMeta() });
+        }
+
+        case "no_cyber_check_data_freshness": {
+          type CoverageFile = {
+            coverage_date?: string;
+            summary?: { total_items?: number };
+            sources?: Array<{ id: string; item_count: number }>;
+          };
+          let coverage: CoverageFile = {};
+          try {
+            coverage = JSON.parse(readFileSync(join(DATA_DIR, "coverage.json"), "utf8")) as CoverageFile;
+          } catch {
+            // fallback to defaults
+          }
+          const asOf = coverage.coverage_date ?? "2026-04-04";
+          const ageDays = Math.floor((Date.now() - new Date(asOf).getTime()) / (1000 * 60 * 60 * 24));
+          const recordCounts = coverage.sources
+            ? Object.fromEntries(coverage.sources.map((s) => [s.id, s.item_count]))
+            : { nsm: 186, norcert: 98, frameworks: 17 };
+          return textContent({
+            as_of: asOf,
+            age_days: ageDays,
+            record_counts: recordCounts,
+            total_items: coverage.summary?.total_items ?? 301,
+            is_stale: ageDays > 90,
+            _meta: responseMeta(),
           });
         }
 
