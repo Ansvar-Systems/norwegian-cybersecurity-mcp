@@ -25,6 +25,7 @@ sources:
       - "no"
       - "en"
 
+    last_verified: "2026-05-10"
   - name: "NorCERT (Norwegian CERT)"
     authority: "NSM / NorCERT"
     official_url: "https://nsm.no/fagomrader/operativt-samarbeid/norcert/"
@@ -42,6 +43,7 @@ sources:
     languages:
       - "no"
 
+    last_verified: "2026-05-10"
   - name: "Lovdata (Norwegian legislation)"
     authority: "Lovdata"
     official_url: "https://lovdata.no"
@@ -58,3 +60,4 @@ sources:
       item_count: 10
     languages:
       - "no"
+    last_verified: "2026-05-10"
