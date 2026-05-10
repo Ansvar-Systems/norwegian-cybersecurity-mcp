@@ -1,0 +1,67 @@
+{
+  "manifest_version": "0.3",
+  "name": "norwegian-cybersecurity",
+  "display_name": "Norwegian Cybersecurity MCP",
+  "version": "0.1.0",
+  "description": "NSM (Nasjonal sikkerhetsmyndighet — Norwegian National Security Authority) MCP server — guidance, advisories, and frameworks",
+  "author": {
+    "name": "Ansvar Systems",
+    "email": "hello@ansvar.eu",
+    "url": "https://ansvar.eu"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ansvar-Systems/norwegian-cybersecurity-mcp"
+  },
+  "homepage": "https://ansvar.eu",
+  "keywords": ["mcp", "model-context-protocol", "ai", "claude", "nsm", "norcert", "ncsc-norway", "norwegian-cybersecurity", "cybersecurity", "norway", "ikt-sikkerhet", "grunnprinsipper", "compliance", "ansvar"],
+  "category": "cybersecurity",
+  "jurisdiction": "Norway",
+  "server": {
+    "type": "node",
+    "entry_point": "dist/src/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/src/index.js"],
+      "env": {}
+    }
+  },
+  "tools": [
+      {
+          "name": "search_guidance"
+      },
+      {
+          "name": "get_guidance"
+      },
+      {
+          "name": "search_advisories"
+      },
+      {
+          "name": "get_advisory"
+      },
+      {
+          "name": "list_frameworks"
+      },
+      {
+          "name": "about"
+      },
+      {
+          "name": "list_sources"
+      },
+      {
+          "name": "check_data_freshness"
+      }
+  ],
+  "attribution": {
+    "publisher": "NSM",
+    "license": "Public Domain (Norwegian government publications)",
+    "source_url_pattern": "https://nsm.no"
+  },
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=20.0.0"
+    }
+  }
+}
