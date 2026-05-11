@@ -234,12 +234,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const d = doc as unknown as Record<string, unknown>;
         return textContent({
           ...d,
-          _citation: buildCitation(
-            String(d.reference ?? parsed.reference),
-            String(d.title ?? d.reference ?? parsed.reference),
-            "no_cyber_get_guidance",
-            { reference: parsed.reference },
-          ),
+          _citation: buildCitation({
+  canonicalRef: String(d.reference ?? parsed.reference),
+  displayText: String(d.title ?? d.reference ?? parsed.reference),
+  toolName: "no_cyber_get_guidance",
+  toolArgs: { reference: parsed.reference },
+  attribution: { source_url: String(d.source_url ?? ""), publisher: "Nasjonal sikkerhetsmyndighet (NSM)", license: "Public-Domain" },
+}),
         });
       }
 
@@ -262,12 +263,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const a = advisory as unknown as Record<string, unknown>;
         return textContent({
           ...a,
-          _citation: buildCitation(
-            String(a.reference ?? parsed.reference),
-            String(a.title ?? a.reference ?? parsed.reference),
-            "no_cyber_get_advisory",
-            { reference: parsed.reference },
-          ),
+          _citation: buildCitation({
+  canonicalRef: String(a.reference ?? parsed.reference),
+  displayText: String(a.title ?? a.reference ?? parsed.reference),
+  toolName: "no_cyber_get_advisory",
+  toolArgs: { reference: parsed.reference },
+  attribution: { source_url: String(a.source_url ?? ""), publisher: "Nasjonal sikkerhetsmyndighet (NSM)", license: "Public-Domain" },
+}),
         });
       }
 

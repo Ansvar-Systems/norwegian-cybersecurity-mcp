@@ -3356,10 +3356,10 @@ const insertFramework = db.prepare(
   "INSERT OR IGNORE INTO frameworks (id, name, name_en, description, document_count) VALUES (?, ?, ?, ?, ?)",
 );
 const insertGuidance = db.prepare(
-  "INSERT OR IGNORE INTO guidance (reference, title, title_en, date, type, series, summary, full_text, topics, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  "INSERT OR IGNORE INTO guidance (reference, title, title_en, date, type, series, summary, full_text, topics, status, source_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 );
 const insertAdvisory = db.prepare(
-  "INSERT OR IGNORE INTO advisories (reference, title, date, severity, affected_products, summary, full_text, cve_references) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+  "INSERT OR IGNORE INTO advisories (reference, title, date, severity, affected_products, summary, full_text, cve_references, source_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
 );
 
 // Frameworks
@@ -3377,8 +3377,7 @@ const insertAllGuidance = db.transaction(() => {
   for (const g of allGuidance) {
     insertGuidance.run(
       g.reference, g.title, g.title_en, g.date, g.type, g.series,
-      g.summary, g.full_text, g.topics, g.status,
-    );
+      g.summary, g.full_text, g.topics, g.status, /* TODO(source_url): wire from fetch loop */ undefined as any);
   }
 });
 insertAllGuidance();
@@ -3390,8 +3389,7 @@ const insertAllAdvisories = db.transaction(() => {
   for (const a of allAdvisories) {
     insertAdvisory.run(
       a.reference, a.title, a.date, a.severity,
-      a.affected_products, a.summary, a.full_text, a.cve_references,
-    );
+      a.affected_products, a.summary, a.full_text, a.cve_references, /* TODO(source_url): wire from fetch loop */ undefined as any);
   }
 });
 insertAllAdvisories();
