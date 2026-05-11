@@ -30,6 +30,7 @@ import {
   getAdvisory,
   listFrameworks,
 } from "./db.js";
+import { buildCitation } from "./citation.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -195,7 +196,17 @@ function createMcpServer(): Server {
             status: parsed.status,
             limit: parsed.limit,
           });
-          return textContent({ results, count: results.length });
+          const annotated = results.map((item) => ({
+            ...item,
+            _citation: buildCitation({
+              canonicalRef: item.reference,
+              displayText: item.title,
+              toolName: "no_cyber_get_guidance",
+              toolArgs: { reference: item.reference },
+              attribution: { source_url: item.source_url ?? "", publisher: "Nasjonal sikkerhetsmyndighet (NSM)", license: "Public-Domain" },
+            }),
+          }));
+          return textContent({ results: annotated, count: annotated.length });
         }
 
         case "no_cyber_get_guidance": {
@@ -204,7 +215,16 @@ function createMcpServer(): Server {
           if (!doc) {
             return errorContent(`Guidance document not found: ${parsed.reference}`);
           }
-          return textContent(doc);
+          return textContent({
+            ...doc,
+            _citation: buildCitation({
+              canonicalRef: doc.reference,
+              displayText: doc.title,
+              toolName: "no_cyber_get_guidance",
+              toolArgs: { reference: parsed.reference },
+              attribution: { source_url: doc.source_url ?? "", publisher: "Nasjonal sikkerhetsmyndighet (NSM)", license: "Public-Domain" },
+            }),
+          });
         }
 
         case "no_cyber_search_advisories": {
@@ -214,7 +234,17 @@ function createMcpServer(): Server {
             severity: parsed.severity,
             limit: parsed.limit,
           });
-          return textContent({ results, count: results.length });
+          const annotated = results.map((item) => ({
+            ...item,
+            _citation: buildCitation({
+              canonicalRef: item.reference,
+              displayText: item.title,
+              toolName: "no_cyber_get_advisory",
+              toolArgs: { reference: item.reference },
+              attribution: { source_url: item.source_url ?? "", publisher: "Nasjonal sikkerhetsmyndighet (NSM)", license: "Public-Domain" },
+            }),
+          }));
+          return textContent({ results: annotated, count: annotated.length });
         }
 
         case "no_cyber_get_advisory": {
@@ -223,7 +253,16 @@ function createMcpServer(): Server {
           if (!advisory) {
             return errorContent(`Advisory not found: ${parsed.reference}`);
           }
-          return textContent(advisory);
+          return textContent({
+            ...advisory,
+            _citation: buildCitation({
+              canonicalRef: advisory.reference,
+              displayText: advisory.title,
+              toolName: "no_cyber_get_advisory",
+              toolArgs: { reference: parsed.reference },
+              attribution: { source_url: advisory.source_url ?? "", publisher: "Nasjonal sikkerhetsmyndighet (NSM)", license: "Public-Domain" },
+            }),
+          });
         }
 
         case "no_cyber_list_frameworks": {
